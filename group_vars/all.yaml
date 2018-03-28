@@ -1,2 +1,3 @@
 BIN_PATH: /root/local/bin
 ENV_PATH: /etc/profile.d
+SSL_PATH: /etc/kubernets/ssl

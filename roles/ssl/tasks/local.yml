@@ -1,0 +1,29 @@
+#install cfssl
+- name: create bin path dir
+  file: path={{ BIN_PATH }} state=directory
+  connection: local
+- name: copy cfssl_env.sh
+  template: src=cfssl_env.sh dest={{ ENV_PATH }}
+  connection: local
+- name: install cfssl
+  copy: src={{ item }} dest={{ BIN_PATH }} mode=755
+  with_items:
+  - cfssl
+  - cfssl-certinfo
+  - cfssljson
+  connection: local
+#generate ca
+- name: create ssl dir
+  file: path={{ SSL_PATH }} state=directory
+  connection: local
+- name: copy  ca-config.json ca-csr.json
+  copy: src={{ item }} dest={{ SSL_PATH }}
+  with_items:
+  - ca-config.json
+  - ca-csr.json
+  connection: local
+- name: generate ca-key.pem ca.pem
+  shell: "{{ BIN_PATH }}/cfssl gencert -initca ca-csr.json | {{ BIN_PATH }}/cfssljson -bare ca" 
+  args:
+    chdir: "{{ SSL_PATH }}"
+  connection: local

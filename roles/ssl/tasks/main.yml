@@ -1,7 +1,8 @@
-- name: local install cfssl
+- include: local.yml
+
+- name: install cfssl
   copy: src={{ item }} dest={{ BIN_PATH }}
   with_items:
   - cfssl
   - cfssl-certinfo
   - cfssljson
-  connect: local

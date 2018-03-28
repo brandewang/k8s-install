@@ -1,4 +1,5 @@
 - hosts: k8s-cluster
-  user: root
+  remote_user: root
+  gather_facts: False
   roles:
   - init

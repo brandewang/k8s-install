@@ -1,1 +1,1 @@
-PATH=$PATH:{{ BIN_PATH }}
+export PATH=$PATH:{{ BIN_PATH }}
