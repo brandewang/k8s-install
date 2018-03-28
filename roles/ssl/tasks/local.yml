@@ -12,18 +12,29 @@
   - cfssl-certinfo
   - cfssljson
   connection: local
-#generate ca
+#generate ca   etcd  
 - name: create ssl dir
   file: path={{ SSL_PATH }} state=directory
   connection: local
-- name: copy  ca-config.json ca-csr.json
-  copy: src={{ item }} dest={{ SSL_PATH }}
+- name: copy  ca-config.json ca-csr.jsona etcd-csr.json
+  template: src={{ item }} dest={{ SSL_PATH }}
   with_items:
   - ca-config.json
   - ca-csr.json
+  - etcd-csr.json
   connection: local
 - name: generate ca-key.pem ca.pem
   shell: "{{ BIN_PATH }}/cfssl gencert -initca ca-csr.json | {{ BIN_PATH }}/cfssljson -bare ca" 
   args:
     chdir: "{{ SSL_PATH }}"
   connection: local
+- name: generate etcd-key.pem etcd.pem
+  shell: "{{ BIN_PATH }}/cfssl gencert -ca=ca.pem \
+          -ca-key=ca-key.pem \
+          -config=ca-config.json \
+          -profile=kubernetes etcd-csr.json | {{ BIN_PATH }}/cfssljson -bare etcd"
+  args:
+    chdir: "{{  SSL_PATH }}"
+  ignore_errors: True
+  connection: local
+

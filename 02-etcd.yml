@@ -1,0 +1,5 @@
+- hosts: etcd-cluster
+  remote_user: root
+  gather_facts: True
+  roles:
+  - etcd

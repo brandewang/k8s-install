@@ -1,2 +1,8 @@
 [k8s-cluster]
 10.28.50.41
+10.28.50.42
+10.28.50.43
+[etcd-cluster]
+10.28.50.41  NODE_NAME=etcd-host0
+10.28.50.42  NODE_NAME=etcd-host1
+10.28.50.43  NODE_NAME=etcd-host2

@@ -1,0 +1,13 @@
+- name: copy etcd bin file
+  copy: src={{ item }} dest={{ BIN_PATH }} mode=755
+  with_items:
+  - etcd
+  - etcdctl 
+- name: clean etcd work dir
+  file: path=/var/lib/etcd state=absent
+- name: create etcd work dir
+  file: path=/var/lib/etcd state=directory
+- name: copy etcd.service
+  template: src=etcd.service dest={{ SVC_PATH }}
+- name: config etcd.service
+  service: name=etcd daemon_reload=yes enabled=yes state=restarted
