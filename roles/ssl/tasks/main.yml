@@ -1,4 +1,4 @@
-- include: local.yml
+- include_tasks: local.yml
 
 - name: install cfssl
   copy: src={{ item }} dest={{ BIN_PATH }}
@@ -6,3 +6,8 @@
   - cfssl
   - cfssl-certinfo
   - cfssljson
+- name: create ssl dir
+  file: path={{ SSL_PATH }} state=directory
+- name: sync ssl dir
+  synchronize: src={{ SSL_PATH }}/ dest={{ SSL_PATH }}/ delete=yes
+  
