@@ -1,0 +1,1 @@
+PATH=$PATH:{{ BIN_PATH }}

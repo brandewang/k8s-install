@@ -1,0 +1,5 @@
+- hosts: k8s-cluster
+  remote_user: root
+  grather_facts: Falase
+  roles:
+  - ssl

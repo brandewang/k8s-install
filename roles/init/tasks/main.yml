@@ -1,0 +1,7 @@
+- name: create bin path dir
+  file: path={{ BIN_PATH }} state=directory
+- name: copy k8s_env.sh
+  template: src={{ item }} dest={{ ENV_PATH }} 
+  with_items:
+  - k8s_env.sh
+ 

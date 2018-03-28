@@ -1,0 +1,7 @@
+- name: local install cfssl
+  copy: src={{ item }} dest={{ BIN_PATH }}
+  with_items:
+  - cfssl
+  - cfssl-certinfo
+  - cfssljson
+  connect: local
