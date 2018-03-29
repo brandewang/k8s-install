@@ -6,8 +6,10 @@
   - cfssl
   - cfssl-certinfo
   - cfssljson
+- name: copy cfssl_env.sh
+  template: src=cfssl_env.sh dest={{ ENV_PATH }}
 - name: create ssl dir
   file: path={{ SSL_PATH }} state=directory
 - name: sync ssl dir
   synchronize: src={{ SSL_PATH }}/ dest={{ SSL_PATH }}/ delete=yes
-  
+

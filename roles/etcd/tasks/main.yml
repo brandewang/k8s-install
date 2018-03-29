@@ -3,11 +3,26 @@
   with_items:
   - etcd
   - etcdctl 
+
+- name: copy etcd_env.sh file
+  template: src=etcd_env.sh dest={{ ENV_PATH }} 
+
 - name: clean etcd work dir
   file: path=/var/lib/etcd state=absent
 - name: create etcd work dir
   file: path=/var/lib/etcd state=directory
+
+- name: clean etcd config dir
+  file: path=/etc/etcd state=absent
+- name: create etcd config dir
+  file: path=/etc/etcd state=directory
+- name: copy etcd config file
+  template: src=etcd.conf dest=/etc/etcd
+
 - name: copy etcd.service
   template: src=etcd.service dest={{ SVC_PATH }}
 - name: config etcd.service
   service: name=etcd daemon_reload=yes enabled=yes state=restarted
+
+- name: endpoing health check
+  shell: etcdctl --endpoints=$ETCD_ENDPOINTS endpoint health 

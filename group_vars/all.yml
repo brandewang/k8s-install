@@ -2,5 +2,5 @@ BIN_PATH: /root/local/bin
 ENV_PATH: /etc/profile.d
 SVC_PATH: /usr/lib/systemd/system
 SSL_PATH: /etc/kubernetes/ssl
-ETCD_IPS: [10.28.50.41, 10.28.50.42, 10.28.50.43]
-ETCD_NODES: 'etcd-host0=https://10.28.50.41:2380,etcd-host1=https://10.28.50.42:2380,etcd-host2=https://10.28.50.43:2380'
+ETCD_HOSTS: [k8s-master01,k8s-master02,k8s-master03]
+ETCD_NODES: 'k8s-master01=https://k8s-master01:2380,k8s-master02=https://k8s-master02:2380,k8s-master03=https://k8s-master03:2380'

@@ -8,24 +8,11 @@ Documentation=https://github.com/coreos
 [Service]
 Type=notify
 WorkingDirectory=/var/lib/etcd/
-ExecStart=/root/local/bin/etcd \
-  --name={{ NODE_NAME }} \
-  --cert-file={{ SSL_PATH }}/etcd.pem \
-  --key-file={{ SSL_PATH }}/etcd-key.pem \
-  --peer-cert-file={{ SSL_PATH }}/etcd.pem \
-  --peer-key-file={{ SSL_PATH }}/etcd-key.pem \
-  --trusted-ca-file={{ SSL_PATH }}/ca.pem \
-  --peer-trusted-ca-file={{ SSL_PATH }}/ca.pem \
-  --initial-advertise-peer-urls=https://{{ ansible_default_ipv4.address }}:2380 \
-  --listen-peer-urls=https://{{ ansible_default_ipv4.address }}:2380 \
-  --listen-client-urls=https://{{ ansible_default_ipv4.address }}:2379,http://127.0.0.1:2379 \
-  --advertise-client-urls=https://{{ ansible_default_ipv4.address }}:2379 \
-  --initial-cluster-token=etcd-cluster-0 \
-  --initial-cluster={{ ETCD_NODES }} \
-  --initial-cluster-state=new \
-  --data-dir=/var/lib/etcd
+EnvironmentFile=-/etc/etcd/etcd.conf
+ExecStart=/root/local/bin/etcd 
+PermissionsStartOnly=true
 Restart=on-failure
-RestartSec=5
+RestartSec=10
 LimitNOFILE=65536
 
 [Install]
