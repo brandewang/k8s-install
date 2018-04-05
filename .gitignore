@@ -1,1 +1,2 @@
 *.retry
+roles/k8s-master/files/kube*

@@ -1,0 +1,11 @@
+- name: check already install
+  shell: kube-apiserver --version
+  register: result
+  ignore_errors: True
+- name: copy binary files
+  copy: src={{ item }} dest={{ BIN_PATH }} mode=755
+  with_items:
+  - kube-controller-manager
+  - kube-scheduler
+  - kube-apiserver
+  when: result|failed

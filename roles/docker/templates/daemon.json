@@ -1,0 +1,3 @@
+{"registry-mirrors": [{{ docker_registry_mirrors }}],
+"insecure-registries": [{{ docker_insecure_registries }}]
+}

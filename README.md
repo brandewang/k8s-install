@@ -5,3 +5,7 @@
 
 	01-ssl.yml
     本地生成ca，安装cfssl，复制ca证书
+
+
+## version
+etcd Version: 3.1.6

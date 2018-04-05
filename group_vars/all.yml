@@ -1,6 +1,12 @@
+#ALL
 BIN_PATH: /root/local/bin
 ENV_PATH: /etc/profile.d
 SVC_PATH: /usr/lib/systemd/system
+#SSL
 SSL_PATH: /etc/kubernetes/ssl
+#ETCD
 ETCD_HOSTS: [k8s-master01,k8s-master02,k8s-master03]
 ETCD_NODES: 'k8s-master01=https://k8s-master01:2380,k8s-master02=https://k8s-master02:2380,k8s-master03=https://k8s-master03:2380'
+#DOCKER
+docker_registry_mirrors: '"http://778b0420.m.daocloud.io"'
+docker_insecure_registries: ""

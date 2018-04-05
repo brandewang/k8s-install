@@ -1,0 +1,31 @@
+- name: clean docker old version
+  yum: name={{ item }} state=absent
+  with_items:
+  - docker 
+  - docker-client 
+  - docker-client-latest 
+  - docker-common 
+  - docker-latest 
+  - docker-latest-logrotate 
+  - docker-logrotate 
+  - docker-selinux 
+  - docker-engine-selinux 
+  - docker-engine 
+  - docker-ce
+- name: clean docker data
+  file: path={{ item }} state=absent
+  with_items:
+  - /etc/docker
+  - /var/lib/docker
+- name: install docker-ce
+  script: get-docker.sh
+- name: version check
+  shell: docker -v
+- name: create docker config dir
+  file: path=/etc/docker state=directory
+- name: docker registry-mirrors & insecure registry
+  template: src=daemon.json dest=/etc/docker/
+- name: config docker service
+  service: name=docker daemon_reload=yes enabled=yes state=restarted
+
+
