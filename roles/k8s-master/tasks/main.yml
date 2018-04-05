@@ -8,4 +8,5 @@
   - kube-controller-manager
   - kube-scheduler
   - kube-apiserver
+  - kubectl
   when: result|failed
