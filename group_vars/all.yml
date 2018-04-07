@@ -10,3 +10,15 @@ ETCD_NODES: 'k8s-master01=https://k8s-master01:2380,k8s-master02=https://k8s-mas
 #DOCKER
 docker_registry_mirrors: '"http://778b0420.m.daocloud.io"'
 docker_insecure_registries: ""
+#K8S
+#kube-apiserver
+MASTER_IP: [10.28.50.41,10.28.50.42,10.28.50.43]
+CLUSTER_KUBERNETES_SVC_IP: 10.254.0.1
+SERVICE_CIDR: 10.254.0.0/16
+NODE_PORT_RANGE: 8400-9000
+ETCD_ENDPOINTS: "https://k8s-master01:2379,https://k8s-master02:2379,https://k8s-master03:2379"
+#kube-controller-manager
+CLUSTER_CIDR: 172.30.0.0/16
+
+
+

@@ -22,17 +22,21 @@
   - ca-config.json
   - ca-csr.json
   - etcd-csr.json
+  - kubernetes-csr.json
   connection: local
 - name: generate ca-key.pem ca.pem
   shell: "{{ BIN_PATH }}/cfssl gencert -initca ca-csr.json | {{ BIN_PATH }}/cfssljson -bare ca" 
   args:
     chdir: "{{ SSL_PATH }}"
   connection: local
-- name: generate etcd-key.pem etcd.pem
+- name: generate etcd-key.pem etcd.pem  & kubernetes-key.pem  kubernetes.pem
   shell: "{{ BIN_PATH }}/cfssl gencert -ca=ca.pem \
           -ca-key=ca-key.pem \
           -config=ca-config.json \
-          -profile=kubernetes etcd-csr.json | {{ BIN_PATH }}/cfssljson -bare etcd"
+          -profile=kubernetes {{ item.src }}  | {{ BIN_PATH }}/cfssljson -bare {{ item.dest }}"
+  with_items:
+  - { src: etcd-csr.json, dest: etcd }
+  - { src: kubernetes-csr.json, dest: kubernetes }
   args:
     chdir: "{{  SSL_PATH }}"
   ignore_errors: True

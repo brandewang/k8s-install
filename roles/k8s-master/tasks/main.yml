@@ -2,6 +2,11 @@
   shell: kube-apiserver --version
   register: result
   ignore_errors: True
+- name: copy auth files
+  copy: src={{ item }} dest={{ SSL_PATH }}
+  with_items:
+  - basic-auth.csv
+  - token.csv
 - name: copy binary files
   copy: src={{ item }} dest={{ BIN_PATH }} mode=755
   with_items:
@@ -10,3 +15,18 @@
   - kube-apiserver
   - kubectl
   when: result|failed
+- name: copy service files
+  template: src={{ item }} dest={{ SVC_PATH }}
+  with_items:
+  - kube-apiserver.service
+  - kube-controller-manager.service
+  - kube-scheduler.service 
+- name: config service
+  service: name={{ item }} daemon_reload=yes enabled=yes state=restarted
+  with_items:
+  - kube-apiserver.service
+  - kube-controller-manager.service
+  - kube-scheduler.service 
+
+- name: copy k8s-master_env
+  copy: src=k8s-master_env.sh dest={{ ENV_PATH }} mode=0755
