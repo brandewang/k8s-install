@@ -1,0 +1,5 @@
+#etcd authorize clusterrolebinding
+- name: authorize kubelet-bootstrap
+  shell: kubectl create clusterrolebinding kubelet-bootstrap --clusterrole=system:node-bootstrapper --user=kubelet-bootstrap
+  when: NODE_NAME=='k8s-master01'
+  ignore_errors: true

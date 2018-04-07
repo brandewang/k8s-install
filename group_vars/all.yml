@@ -2,6 +2,7 @@
 BIN_PATH: /root/local/bin
 ENV_PATH: /etc/profile.d
 SVC_PATH: /usr/lib/systemd/system
+CONF_PATH: /etc/kubernetes/config
 #SSL
 SSL_PATH: /etc/kubernetes/ssl
 #ETCD
@@ -17,6 +18,10 @@ CLUSTER_KUBERNETES_SVC_IP: 10.254.0.1
 SERVICE_CIDR: 10.254.0.0/16
 NODE_PORT_RANGE: 8400-9000
 ETCD_ENDPOINTS: "https://k8s-master01:2379,https://k8s-master02:2379,https://k8s-master03:2379"
+basic_user: brande
+basic_password: brande
+BOOTSTRAP_TOKEN: 85d921f0c9944ecda9822b9b1427bdc0
+KUBE_APISERVER_CLUSTER: https://10.28.50.41:6443
 #kube-controller-manager
 CLUSTER_CIDR: 172.30.0.0/16
 

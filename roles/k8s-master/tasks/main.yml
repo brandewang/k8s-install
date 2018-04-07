@@ -1,12 +1,11 @@
+- include_tasks: local.yml
+
+- name: sync auth files
+  synchronize: src={{ SSL_PATH }}/ dest={{ SSL_PATH }}/ delete=yes
 - name: check already install
   shell: kube-apiserver --version
   register: result
   ignore_errors: True
-- name: copy auth files
-  copy: src={{ item }} dest={{ SSL_PATH }}
-  with_items:
-  - basic-auth.csv
-  - token.csv
 - name: copy binary files
   copy: src={{ item }} dest={{ BIN_PATH }} mode=755
   with_items:
@@ -27,6 +26,8 @@
   - kube-apiserver.service
   - kube-controller-manager.service
   - kube-scheduler.service 
-
+#kubectl命令行补全
 - name: copy k8s-master_env
   copy: src=k8s-master_env.sh dest={{ ENV_PATH }} mode=0755
+
+- include_tasks: authorize.yml

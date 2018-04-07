@@ -1,0 +1,6 @@
+- name: generate the basic-auth.csv for api-server
+  shell: echo {{ basic_user }},{{ basic_password}},1 > {{ SSL_PATH }}/basic-auth.csv
+  connection: local
+- name: generate the token.csv for api-server
+  shell: echo {{ API_TOKEN }},kubelet-bootstrap,10001,system:kubelet-bootstrap > {{ SSL_PATH }}/token.csv
+  connection: local
