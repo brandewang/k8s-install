@@ -1,16 +1,19 @@
+#generate kubeconfig file for kubelet
 - name: install kubectl on local
   copy: src=kubectl dest={{ BIN_PATH }} mode=0755
   connection: local
 - name: create conf dir
   file: path={{ CONF_PATH }} state=directory
   connection: local
-- name: create KUBE_APISERVER_CLUSTER
+- name: create kubelet bootstrapping kubeconfig
   shell: kubectl config set-cluster kubernetes --certificate-authority={{ SSL_PATH }}/ca.pem  --embed-certs=true --server={{ KUBE_APISERVER_CLUSTER }} --kubeconfig=bootstrap.kubeconfig && \
          kubectl config set-credentials kubelet-bootstrap --token={{ BOOTSTRAP_TOKEN }} --kubeconfig=bootstrap.kubeconfig && \
-         kubectl config set-context default \
-         --cluster=kubernetes \
-         --user=kubelet-bootstrap \
-         --kubeconfig=bootstrap.kubeconfig
+         kubectl config set-context default --cluster=kubernetes --user=kubelet-bootstrap --kubeconfig=bootstrap.kubeconfig && \
+         kubectl config use-context default --kubeconfig=bootstrap.kubeconfig
   args:
     chdir: "{{ CONF_PATH }}"
+  connection: local
+  ignore_errors: True
+- name: file mod change
+  file: path={{ CONF_PATH }}/bootstrap.kubeconfig mode=0644
   connection: local

@@ -1,1 +1,25 @@
 - include_tasks: local.yml
+
+- name: create kubelet config dir
+  file: path={{ CONF_PATH }} state=directory
+- name: sync conf dir
+  synchronize: src={{ CONF_PATH }}/ dest={{ CONF_PATH }}/ delete=yes
+- name: check install
+  shell: kubelet --version
+  register: result
+- name: copy binary file
+  copy: src={{ item }} dest={{ BIN_PATH }} mode=0755
+  with_items:
+  - kubelet
+  when: result|failed
+- name: copy service file
+  template: src={{ item }} dest={{ SVC_PATH }}
+  with_items:
+  - kubelet.service
+- name: create work dir
+  file: path=/var/lib/kubelet state=directory
+- name: config service 
+  service: name={{ item }} daemon_reload=yes enabled=yes state=restarted
+  with_items:
+  - kubelet
+  

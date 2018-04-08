@@ -9,3 +9,4 @@
 
 ## version
 etcd Version: 3.1.6
+kube Version: v1.8.8

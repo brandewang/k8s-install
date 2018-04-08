@@ -1,0 +1,28 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+
+[Service]
+WorkingDirectory=/var/lib/kubelet
+ExecStart={{ BIN_PATH }}/kubelet \
+  --address={{ ansible_default_ipv4.address }} \
+  --hostname-override={{ ansible_hostname }} \
+  --pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest \
+  --bootstrap-kubeconfig=/etc/kubernetes/config/bootstrap.kubeconfig \
+  --kubeconfig=/etc/kubernetes/config/bootstrap.kubeconfig \
+  --cert-dir=/etc/kubernetes/ssl \
+  --cluster-dns={{ CLUSTER_DNS_SVC_IP }} \
+  --cluster-domain={{ CLUSTER_DNS_DOMAIN }} \
+  --hairpin-mode promiscuous-bridge \
+  --allow-privileged=true \
+  --fail-swap-on=false \
+  --node-labels=node-role.kubernetes.io/{{ NODE_LABEL }}=true \
+  --logtostderr=true \
+  --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
