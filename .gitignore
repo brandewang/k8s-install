@@ -1,2 +1,3 @@
 *.retry
 roles/k8s-*/files/kube*
+*.swp

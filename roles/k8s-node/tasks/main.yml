@@ -11,15 +11,18 @@
   copy: src={{ item }} dest={{ BIN_PATH }} mode=0755
   with_items:
   - kubelet
+  - kube-proxy
+  - kubectl
   when: result|failed
 - name: copy service file
   template: src={{ item }} dest={{ SVC_PATH }}
   with_items:
   - kubelet.service
+  - kube-proxy.service
 - name: create work dir
   file: path=/var/lib/kubelet state=directory
 - name: config service 
   service: name={{ item }} daemon_reload=yes enabled=yes state=restarted
   with_items:
   - kubelet
-  
+  - kube-proxy
