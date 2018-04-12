@@ -12,7 +12,7 @@
   with_items:
   - kubelet
   - kube-proxy
-  - kubectl
+  #- kubectl
   when: result|failed
 - name: copy service file
   template: src={{ item }} dest={{ SVC_PATH }}
@@ -20,7 +20,10 @@
   - kubelet.service
   - kube-proxy.service
 - name: create work dir
-  file: path=/var/lib/kubelet state=directory
+  file: path={{ item }} state=directory
+  with_items:
+  - /var/lib/kubelet
+  - /var/lib/kube-proxy
 - name: config service 
   service: name={{ item }} daemon_reload=yes enabled=yes state=restarted
   with_items:

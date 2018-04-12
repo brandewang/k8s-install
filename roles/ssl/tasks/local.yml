@@ -16,20 +16,21 @@
 - name: create ssl dir
   file: path={{ SSL_PATH }} state=directory
   connection: local
-- name: copy  ca-config.json ca-csr.jsona etcd-csr.json
+- name: copy  ca-config.json ca-csr.json etcd-csr.json kubernetes-csr.json kube-proxy-csr.json
   template: src={{ item }} dest={{ SSL_PATH }}
   with_items:
   - ca-config.json
   - ca-csr.json
   - etcd-csr.json
   - kubernetes-csr.json
+  - kube-proxy-csr.json
   connection: local
 - name: generate ca-key.pem ca.pem
   shell: "{{ BIN_PATH }}/cfssl gencert -initca ca-csr.json | {{ BIN_PATH }}/cfssljson -bare ca" 
   args:
     chdir: "{{ SSL_PATH }}"
   connection: local
-- name: generate etcd-key.pem etcd.pem  & kubernetes-key.pem  kubernetes.pem
+- name: generate etcd key&pem  & kubernetes key&pem  & kube-proxy key&pem
   shell: "{{ BIN_PATH }}/cfssl gencert -ca=ca.pem \
           -ca-key=ca-key.pem \
           -config=ca-config.json \
@@ -37,6 +38,7 @@
   with_items:
   - { src: etcd-csr.json, dest: etcd }
   - { src: kubernetes-csr.json, dest: kubernetes }
+  - { src: kube-proxy-csr.json, dest: kube-proxy }
   args:
     chdir: "{{  SSL_PATH }}"
   ignore_errors: True

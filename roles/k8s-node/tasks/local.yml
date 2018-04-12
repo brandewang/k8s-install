@@ -14,6 +14,31 @@
     chdir: "{{ CONF_PATH }}"
   connection: local
   ignore_errors: True
+
+- name: create kube-proxy.kubeconfig kubeconfig
+  shell: kubectl config set-cluster kubernetes \
+         --certificate-authority=/etc/kubernetes/ssl/ca.pem \
+         --embed-certs=true \
+         --server={{ KUBE_APISERVER_CLUSTER }} \
+         --kubeconfig=kube-proxy.kubeconfig && \
+         kubectl config set-credentials kube-proxy \
+         --client-certificate=/etc/kubernetes/ssl/kube-proxy.pem \
+         --client-key=/etc/kubernetes/ssl/kube-proxy-key.pem \
+         --embed-certs=true \
+         --kubeconfig=kube-proxy.kubeconfig && \
+         kubectl config set-context default \
+         --cluster=kubernetes \
+         --user=kube-proxy \
+         --kubeconfig=kube-proxy.kubeconfig && \
+         kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+  args:
+    chdir: "{{ CONF_PATH }}"
+  connection: local
+  ignore_errors: True
+
 - name: file mod change
-  file: path={{ CONF_PATH }}/bootstrap.kubeconfig mode=0644
+  file: path={{ CONF_PATH }}/{{ item }} mode=0644
+  with_items:
+  - bootstrap.kubeconfig
+  - kube-proxy.kubeconfig
   connection: local
