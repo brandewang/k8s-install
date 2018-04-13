@@ -26,3 +26,16 @@
 
 - name: endpoing health check
   shell: etcdctl --endpoints=$ETCD_ENDPOINTS endpoint health 
+
+#add alias etcdctl
+- name: check alias etcdctl
+  shell: grep 'alias etcdctl' /root/.bashrc
+  register: result
+  ignore_errors: True
+
+- name: clear alias
+  shell: sed -i '/etcdctl/d' /root/.bashrc
+  when: result|success
+
+- name: add alias etcdctl
+  shell: echo "alias etcdctl='etcdctl --endpoints=\$ETCD_ENDPOINTS'" >> /root/.bashrc
