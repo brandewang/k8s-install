@@ -1,0 +1,2 @@
+export PATH={{ CALICO_BIN_PATH }}:$PATH
+

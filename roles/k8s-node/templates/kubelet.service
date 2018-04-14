@@ -13,6 +13,9 @@ ExecStart={{ BIN_PATH }}/kubelet \
   --bootstrap-kubeconfig=/etc/kubernetes/config/bootstrap.kubeconfig \
   --kubeconfig=/etc/kubernetes/config/bootstrap.kubeconfig \
   --cert-dir=/etc/kubernetes/ssl \
+  --network-plugin=cni \
+  --cni-conf-dir={{ CALICO_CONF_PATH }} \
+  --cni-bin-dir={{ CALICO_BIN_PATH }} \
   --cluster-dns={{ CLUSTER_DNS_SVC_IP }} \
   --cluster-domain={{ CLUSTER_DNS_DOMAIN }} \
   --hairpin-mode promiscuous-bridge \

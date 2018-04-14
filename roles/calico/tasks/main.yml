@@ -1,0 +1,33 @@
+# installing calico/node
+- name: clear calico log
+  file: path=/var/log/calico state=absent
+- name: create calico binary&conf dir
+  file: path={{ item }} state=directory
+  with_items:
+  - "{{ CALICO_BIN_PATH }}"
+  - "{{ CALICO_CONF_PATH }}"
+- name: set calico env
+  template: src=calico_env.sh dest={{ ENV_PATH }}
+- name: check install
+  shell: calicoctl version
+  register: result
+  ignore_errors: True
+- name: copy binary files
+  copy: src={{ item }} dest={{ CALICO_BIN_PATH }} mode=755
+  with_items:
+  - calico
+  - calicoctl
+  - calico-ipam
+  - loopback
+  when: result|failed
+- name: copy calico-node.service
+  template: src=calico-node.service dest={{ SVC_PATH }}
+- name: config calico-node.service
+  service: name={{ item }} daemon_reload=yes enabled=yes state=restarted
+  with_items:
+  - calico-node
+
+# installing the calico CNI plugins
+- name: copy cni config file
+  template: src=10-calico.conf dest={{ CALICO_CONF_PATH }}
+

@@ -28,4 +28,6 @@ CLUSTER_CIDR: 172.30.0.0/16
 CLUSTER_DNS_SVC_IP: 10.254.0.2
 CLUSTER_DNS_DOMAIN: "cluster.local."
 
-
+#calico
+CALICO_BIN_PATH: /opt/cni/bin
+CALICO_CONF_PATH: /etc/cni/net.d

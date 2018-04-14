@@ -1,3 +1,4 @@
 *.retry
 roles/k8s-*/files/kube*
+roles/calico/files/calico*
 *.swp

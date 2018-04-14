@@ -1,0 +1,38 @@
+[Unit]
+Description=calico node
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=root
+Environment=ETCD_ENDPOINTS={{ ETCD_ENDPOINTS }}
+PermissionsStartOnly=true
+ExecStart=/usr/bin/docker run   --net=host --privileged --name=calico-node \
+  -e ETCD_ENDPOINTS=${ETCD_ENDPOINTS} \
+  -e NODENAME=${HOSTNAME} \
+  -e ETCD_KEY_FILE={{ SSL_PATH }}/etcd-key.pem \
+  -e ETCD_CERT_FILE={{ SSL_PATH }}/etcd.pem \
+  -e ETCD_CA_CERT_FILE={{ SSL_PATH }}/ca.pem \
+  -e IP= \
+  -e NO_DEFAULT_POOLS= \
+  -e AS= \
+  -e CALICO_LIBNETWORK_ENABLED=true \
+  -e IP6= \
+  -e CALICO_NETWORKING_BACKEND=bird \
+  -e FELIX_DEFAULTENDPOINTTOHOSTACTION=ACCEPT \
+  -e FELIX_HEALTHENABLED=true \
+  -e CALICO_IPV4POOL_CIDR={{ CLUSTER_CIDR }} \
+  -e CALICO_IPV4POOL_IPIP=always \
+  -v {{ SSL_PATH }}:{{ SSL_PATH }} \
+  -v /var/run/calico:/var/run/calico \
+  -v /lib/modules:/lib/modules \
+  -v /run/docker/plugins:/run/docker/plugins \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /var/log/calico:/var/log/calico \
+  quay.io/calico/node:v2.6.3
+ExecStop=/usr/bin/docker rm -f calico-node
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
