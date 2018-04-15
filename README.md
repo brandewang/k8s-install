@@ -11,6 +11,12 @@
 etcd Version: 3.1.6
 kube Version: v1.8.8
 
+calico v1.11.4
+calico-ipam v1.11.4
+calicoctl v1.6.3
+calico-node v2.6.3
+loopback v0.3.0
+
 
 #calico
 calico-node主要包含 felix,confd,bird等模块，控制iptables,route等主机信息以便通信
