@@ -19,7 +19,7 @@
   - calicoctl
   - calico-ipam
   - loopback
-  when: result|failed
+#  when: result|failed
 - name: copy calico-node.service
   template: src=calico-node.service dest={{ SVC_PATH }}
 - name: config calico-node.service

@@ -6,4 +6,5 @@ ansible-playbook -i hosts 02-etcd.yml && \
 ansible-playbook -i hosts 03-docker.yml && \
 ansible-playbook -i hosts 04-calico.yml && \
 ansible-playbook -i hosts 05-k8s-master.yml && \
-ansible-playbook -i hosts 06-k8s-node.yml 
+ansible-playbook -i hosts 06-k8s-node.yml && \
+ansible-playbook -i hosts 07-addons.yml

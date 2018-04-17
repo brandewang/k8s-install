@@ -1,0 +1,11 @@
+- name: copy calico-kube-controllers yml  
+  copy: src={{ item }} dest={{ ADDON_PATH }}
+  with_items:
+  - calico-kube-controllers/rbac.yaml
+  - calico-kube-controllers/calico-kube-controllers.yaml
+- name: creat addons calico-kube-controllers on master 
+  shell: kubectl create -f {{ ADDON_PATH }}/{{ item }}
+  with_items:
+  - rbac.yaml
+  - calico-kube-controllers.yaml
+

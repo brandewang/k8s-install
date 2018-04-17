@@ -1,5 +1,6 @@
 [k8s-cluster:children]
 k8s-master
+k8s-node
 [etcd-cluster]
 10.28.50.41  NODE_NAME=k8s-master01
 10.28.50.42  NODE_NAME=k8s-master02
@@ -8,3 +9,7 @@ k8s-master
 10.28.50.41 NODE_LABEL=master
 10.28.50.42 NODE_LABEL=master
 10.28.50.43 NODE_LABEL=master
+[k8s-node]
+10.28.50.44 NODE_LABEL=node
+10.28.50.45 NODE_LABEL=node
+10.28.50.46 NODE_LABEL=node

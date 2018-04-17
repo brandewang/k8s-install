@@ -1,0 +1,5 @@
+- name: create addon directory
+  file: path={{ ADDON_PATH }} state=directory
+
+- include_tasks: calico-kube-controllers.yml
+  when: NODE_NAME=='k8s-master01'

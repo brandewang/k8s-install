@@ -7,6 +7,7 @@
 - name: check install
   shell: kubelet --version
   register: result
+  ignore_errors: True
 - name: copy binary file
   copy: src={{ item }} dest={{ BIN_PATH }} mode=0755
   with_items:
