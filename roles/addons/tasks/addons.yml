@@ -3,8 +3,10 @@
   with_items:
   - calico-kube-controllers.yaml
   - kube-dns.yaml
+  - kube-dashboard.yaml
 - name: create addons  on master 
   shell: kubectl apply -f {{ ADDON_PATH }}/{{ item }}
   with_items:
   - calico-kube-controllers.yaml
   - kube-dns.yaml
+  - kube-dashboard.yaml
