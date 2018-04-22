@@ -40,4 +40,19 @@ spec:
 
 #addons
 1. calico-kube-controllers
-2.
+2. kube-dns
+3. dashboard
+
+#calico-kube-controllers
+同步k8s网络信息到calico-node
+
+#kube-dns
+在k8s集群内部提供dns服务，为service 添加a记录，使pod可通过service name访问。
+
+#dashboard
+k8s UI访问页面,提供3种访问模式:
+1.访问Service的NodePort 无需认证
+2.访问proxy 需配置
+3.访问API接口https://kube-api:6443/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard
+访问接口时便使用kube-api的安全配置参数作为认证，再通过clusterrolebinding对用户名进行授权
+
