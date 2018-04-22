@@ -1,0 +1,4 @@
+#for access dashboard
+- name: authorize basic_user cluster-admin
+  shell: kubectl create clusterrolebinding cluster-admin-{{ basic_user }} --clusterrole=cluster-admin --user={{ basic_user }}
+  ignore_errors: true

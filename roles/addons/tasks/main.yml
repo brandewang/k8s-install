@@ -3,3 +3,6 @@
 
 - include_tasks: addons.yml
   when: NODE_NAME=='k8s-master01'
+
+- include_tasks: authorize.yml
+  when: NODE_NAME=='k8s-master01'
