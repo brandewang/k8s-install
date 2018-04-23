@@ -25,3 +25,5 @@ spec:
       - name: influxdb-config
         configMap:
           name: influxdb-config
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
