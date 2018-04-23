@@ -4,9 +4,25 @@
   - calico-kube-controllers.yaml
   - kube-dns.yaml
   - kube-dashboard.yaml
+  - heapster/grafana-deployment.yaml
+  - heapster/grafana-service.yaml
+  - heapster/heapster-deployment.yaml
+  - heapster/heapster-rbac.yaml
+  - heapster/heapster-service.yaml
+  - heapster/influxdb-cm.yaml
+  - heapster/influxdb-deployment.yaml
+  - heapster/influxdb-service.yaml
 - name: create addons  on master 
   shell: kubectl apply -f {{ ADDON_PATH }}/{{ item }}
   with_items:
   - calico-kube-controllers.yaml
   - kube-dns.yaml
   - kube-dashboard.yaml
+  - grafana-deployment.yaml
+  - grafana-service.yaml
+  - heapster-deployment.yaml
+  - heapster-rbac.yaml
+  - heapster-service.yaml
+  - influxdb-cm.yaml
+  - influxdb-deployment.yaml
+  - influxdb-service.yaml
