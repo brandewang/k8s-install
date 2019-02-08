@@ -5,7 +5,6 @@ After=network.target
 
 [Service]
 ExecStart=/root/local/bin/kube-apiserver \
-#不允许匿名访问安全端口.通过网页访问API接口的安全端口时,会提示输入用户名密码.
   --anonymous-auth=false \
   --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
   --advertise-address={{ ansible_default_ipv4.address }} \

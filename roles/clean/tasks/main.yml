@@ -1,0 +1,72 @@
+- name: clean env file
+  file: path={{ ENV_PATH }}/{{ item }} state=absent
+  with_items:
+  - etcd_env.sh
+  - k8s_env.sh
+  - k8s-master_env.sh
+  - calico_env.sh
+  - cfssl_env.sh
+- name: clean binary file
+  file: path={{ BIN_PATH }} state=absent
+- name: clean docker old version
+  yum: name={{ item }} state=absent
+  with_items:
+  - docker
+  - docker-client
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-latest-logrotate
+  - docker-logrotate
+  - docker-selinux
+  - docker-engine-selinux
+  - docker-engine
+  - docker-ce
+- name: clean service 
+  service: name={{ item }} state=stopped enabled=no 
+  with_items:
+  - kube-controller-manager.service
+  - kube-apiserver.service
+  - kube-scheduler.service
+  - kubelet.service
+  - kube-proxy.service
+  - etcd.service
+  - calico-node.service
+  ignore_errors: True
+- name: clean service file
+  file: path={{ SVC_PATH }}/{{ item }} state=absent
+  with_items:
+  - kube-controller-manager.service
+  - kube-apiserver.service
+  - kube-scheduler.service
+  - kubelet.service
+  - kube-proxy.service
+  - etcd.service
+  - calico-node.service
+  ignore_errors: True
+- name: reload systemd
+  sudo: yes
+  command: systemctl daemon-reload
+- name: clean data
+  file: path={{ item }} state=absent
+  with_items:
+#etcd
+  - /var/lib/etcd
+  - /etc/etcd
+#docker
+  - /etc/docker
+  - /var/lib/docker
+#calico
+  - /opt/cni
+  - /etc/cni
+  - /var/lib/calico
+#k8s
+  - /var/lib/kubelet
+  - /var/lib/kube-proxy
+  - /etc/kubernetes
+  ignore_errors: True
+- name: Restart server
+  command: /sbin/reboot
+  async: 0
+  poll: 0
+  ignore_errors: true

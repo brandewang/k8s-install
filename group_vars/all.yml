@@ -7,6 +7,7 @@ ADDON_PATH: /etc/kubernetes/addons
 #SSL
 SSL_PATH: /etc/kubernetes/ssl
 #ETCD
+ETCD_IP: [10.28.50.41,10.28.50.42,10.28.50.43]
 ETCD_HOSTS: [k8s-master01,k8s-master02,k8s-master03]
 ETCD_NODES: 'k8s-master01=https://k8s-master01:2380,k8s-master02=https://k8s-master02:2380,k8s-master03=https://k8s-master03:2380'
 #DOCKER
